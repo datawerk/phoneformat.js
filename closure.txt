@@ -102,6 +102,30 @@ function isValidNumber(phone, country) {
 }
 
 // -------------------------------------------------------------------------
+function isMobileNumber(phone, country) {
+        /*
+        
+        Tests whether a phone number is a mobile number
+        
+        
+        */
+        
+        try {
+                var phone = cleanPhone(phone);
+                var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
+                var number = phoneUtil.parseAndKeepRawInput(phone, country);
+                var type = phoneUtil.getNumberType(number);
+                if(type == PNT.MOBILE) {
+                	return true;
+                } else {
+                	return false;
+        	}
+    } catch (e) {
+            return false;
+    }
+}
+
+// -------------------------------------------------------------------------
 function formatE164(country, phone) {
 	/*
 	
