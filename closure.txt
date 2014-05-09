@@ -102,7 +102,7 @@ function isValidNumber(phone, country) {
 }
 
 // -------------------------------------------------------------------------
-function isMobileNumber(phone, country) {
+function getTypeForNumber(phone, country) {
         /*
         
         Tests whether a phone number is a mobile number
@@ -110,19 +110,15 @@ function isMobileNumber(phone, country) {
         
         */
         
-        try {
+        //try {
                 var phone = cleanPhone(phone);
                 var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
                 var number = phoneUtil.parseAndKeepRawInput(phone, country);
                 var type = phoneUtil.getNumberType(number);
-                if(type == PNT.MOBILE) {
-                	return true;
-                } else {
-                	return false;
-        	}
-    } catch (e) {
-            return false;
-    }
+                return type;
+    //} catch (e) {
+    //        return false;
+    //}
 }
 
 // -------------------------------------------------------------------------
