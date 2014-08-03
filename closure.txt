@@ -1,5 +1,5 @@
 // ==ClosureCompiler==
-// @compilation_level ADVANCED_OPTIMIZATIONS
+// @compilation_level SIMPLE_OPTIMIZATIONS
 // @output_file_name phoneformat.js
 // @use_closure_library true
 // @code_url https://raw.githubusercontent.com/DATAWERK/phoneformat.js/master/libphonenumber/javascript/i18n/phonenumbers/phonenumberutil.js
@@ -49,7 +49,7 @@ function countryForE164Number(phone) {
 	try {
 		var phone = cleanPhone(phone);
 		var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
-		var number = phoneUtil.parseAndKeepRawInput(phone, null);
+		var number = phoneUtil.parseAndKeepRawInput(phone);
 	    var output = new goog.string.StringBuffer();
 	    output = phoneUtil.getRegionCodeForNumber(number);
     	return output.toString();
