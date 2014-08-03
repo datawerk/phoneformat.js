@@ -57,29 +57,7 @@ function countryForE164Number(phone) {
     	return "";
     }
 }
-
-// -------------------------------------------------------------------------
-function formatNumberForMobileDialing(country, phone) {
-	/*
-
-	Returns a number formatted in such a way that it can be dialed from a mobile
-	phone in a specific region. If the number cannot be reached from the region
-	(e.g. some countries block toll-free numbers from being called outside of the
-	country), the method returns an empty string.
-
-	*/
-
-	try {
-		var phone = cleanPhone(phone);
-		var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
-		var number = phoneUtil.parseAndKeepRawInput(phone, country);
-	    var output = new goog.string.StringBuffer();
-	    output = phoneUtil.formatNumberForMobileDialing(number, country, true);
-    	return output.toString();
-    } catch (e) {
-    	return "";
-    }
-}
+window['countryForE164Number'] = countryForE164Number;
 
 // -------------------------------------------------------------------------
 function isValidNumber(phone, country) {
@@ -100,6 +78,7 @@ function isValidNumber(phone, country) {
             return false;
     }
 }
+window['isValidNumber'] = isValidNumber;
 
 // -------------------------------------------------------------------------
 function getTypeForNumber(phone, country) {
@@ -120,6 +99,7 @@ function getTypeForNumber(phone, country) {
     //        return false;
     //}
 }
+window['getTypeForNumber'] = getTypeForNumber;
 
 // -------------------------------------------------------------------------
 function formatE164(country, phone) {
@@ -144,7 +124,7 @@ function formatE164(country, phone) {
     	return phone
     }
 }
-
+window['formatE164'] = formatE164;
 
 // -------------------------------------------------------------------------
 function formatInternational(country, phone) {
@@ -170,34 +150,7 @@ function formatInternational(country, phone) {
     	return phone;
     }
 }
-
-// -------------------------------------------------------------------------
-function formatLocal(country, phone) {
-	/*
-
-	Return the phone number in the format local to the user
-
-	country (String) 2 digit country code
-	phone (String) phone number to format
-
-	*/
-
-	try {
-		var phone = cleanPhone(phone);
-		var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();
-		var number = phoneUtil.parseAndKeepRawInput(phone, country);
-		if (phoneUtil.isValidNumberForRegion(number, country)) {
-			var PNF = i18n.phonenumbers.PhoneNumberFormat;
-		    var output = new goog.string.StringBuffer();
-		    output = phoneUtil.format(number, PNF.NATIONAL);
-	    	return output.toString();
-		} else {
-			return formatInternational(country, phone);
-		}
-	} catch (e) {
-		return formatInternational(country, phone);
-	}
-}
+window['formatInternational'] = formatInternational;
 
 // -------------------------------------------------------------------------
 function cleanPhone(phone) {
@@ -240,3 +193,4 @@ function countryCodeToName(countryCode) {
                 return name;
         }
 }
+window['countryCodeToName'] = countryCodeToName;
