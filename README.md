@@ -1,7 +1,7 @@
 phoneformat.js
 ==============
 
-Javascript Phone Number Formatter
+Javascript Phone Number Formatter optimized only for DE,AT,CH
 
 ## Build javascript metadata from libphonenumber
 ```
