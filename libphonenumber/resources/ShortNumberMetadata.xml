@@ -1,0 +1,259 @@
+<!-- Copyright (C) 2013 The Libphonenumber Authors
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+     @author: David Yonge-Mallo
+     @author: Shaopeng Jia
+     @author: Lara Rennie
+
+     Metadata on Short Number patterns, containing information for classifying short numbers by
+     type and cost. Note that this is used in addition to the information provided by the
+     PhoneNumberMetadata.xml file - patterns should not be duplicated between these files.
+
+     Emergency numbers Wikipedia source:
+     http://en.wikipedia.org/wiki/Emergency_telephone_number
+-->
+
+<!DOCTYPE phoneNumberMetadata [
+    <!ELEMENT phoneNumberMetadata (territories)>
+    <!ELEMENT territories (territory+)>
+    <!ELEMENT territory (generalDesc, shortCode, tollFree?, standardRate?, premiumRate?,
+        carrierSpecific?, carrierServices?, directoryServices?, emergency?, expandedEmergency?,
+        smsServices?, carrierSelectionCodes?)>
+    <!ELEMENT generalDesc (nationalNumberPattern, possibleNumberPattern)>
+    <!ELEMENT shortCode (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+
+    <!-- The following cost categories are mutually exclusive. Emergency numbers are implicitly
+         considered toll free and do not need to be repeated here. Otherwise, a short number which
+         does not fall into one of these categories is considered to have unknown cost. -->
+    <!ELEMENT tollFree (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!ELEMENT standardRate (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!ELEMENT premiumRate (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+
+    <!-- The following tags are currently used to classify numbers as a particular type and need not
+         be mutually exclusive. The names are provisionary only and may be revised in the future.
+         -->
+    <!-- carrierSpecific numbers are numbers for which the endpoint can vary by carrier. The number
+         may connect to a different endpoint on another carrier, or may not work at all. -->
+    <!ELEMENT carrierSpecific (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!-- Numbers that access services operated by a particular carrier (e.g. account top-up.) -->
+    <!ELEMENT carrierServices (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!ELEMENT directoryServices (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!ELEMENT emergency (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!-- Emergency numbers beyond the traditional fire-police-ambulance trio. This includes things
+         like rescue helicopters and help-lines that include "emergency" in their description. -->
+    <!ELEMENT expandedEmergency (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+    <!-- Used for numbers that can receive & send SMSs but are not available to be called. -->
+    <!ELEMENT smsServices (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+
+    <!-- Numbers dialled to select a particular carrier before making a phone call. These should be
+         included in the generalDesc pattern if they connect by themselves. However, they should be
+         excluded if they are dialled as a prefix only. -->
+    <!ELEMENT carrierSelectionCodes (nationalNumberPattern, possibleNumberPattern?, exampleNumber)>
+
+    <!ELEMENT nationalNumberPattern (#PCDATA)>
+    <!ELEMENT possibleNumberPattern (#PCDATA)>
+    <!ELEMENT exampleNumber (#PCDATA)>
+
+    <!ATTLIST territory id CDATA #REQUIRED>
+]>
+
+<phoneNumberMetadata>
+  <territories>
+    <!-- Germany -->
+    <!-- http://www.itu.int/oth/T0202000051/en -->
+    <!-- http://en.wikipedia.org/wiki/Telephone_numbers_in_germany -->
+    <territory id="DE">
+      <generalDesc>
+        <nationalNumberPattern>1\d{2}</nationalNumberPattern>
+        <possibleNumberPattern>\d{3}</possibleNumberPattern>
+      </generalDesc>
+      <shortCode>
+        <!-- Public Service Number for German administration: 115. -->
+        <nationalNumberPattern>11[025]</nationalNumberPattern>
+        <exampleNumber>115</exampleNumber>
+      </shortCode>
+      <emergency>
+        <nationalNumberPattern>11[02]</nationalNumberPattern>
+        <exampleNumber>112</exampleNumber>
+      </emergency>
+    </territory>
+
+    <!-- Austria -->
+    <!-- http://www.rtr.at/en/tk/E129 -->
+    <territory id="AT">
+      <generalDesc>
+        <nationalNumberPattern>1\d{2}</nationalNumberPattern>
+        <possibleNumberPattern>\d{3}</possibleNumberPattern>
+      </generalDesc>
+      <shortCode>
+        <nationalNumberPattern>
+          1(?:
+            [12]2|
+            33|
+            44
+          )
+        </nationalNumberPattern>
+        <exampleNumber>112</exampleNumber>
+      </shortCode>
+      <emergency>
+        <nationalNumberPattern>
+          1(?:
+            [12]2|
+            33|
+            44
+          )
+        </nationalNumberPattern>
+        <exampleNumber>112</exampleNumber>
+      </emergency>
+    </territory>
+    
+        <!-- Switzerland -->
+    <!-- http://www.bakom.admin.ch/themen/telekom/00479/00604/index.html?lang=en -->
+    <!-- http://en.wikipedia.org/wiki/Telephone_numbers_in_Switzerland#Short_numbers -->
+    <!-- http://csi.sunrise.ch/smartzone/_privat -->
+    <territory id="CH">
+      <generalDesc>
+        <nationalNumberPattern>[1-9]\d{2,5}</nationalNumberPattern>
+        <possibleNumberPattern>\d{3,6}</possibleNumberPattern>
+      </generalDesc>
+      <shortCode>
+        <!-- According to the "E.164 national numbering plan of Switzerland", some short numbers
+             may be accessible from abroad. However, it does not specify which ones. -->
+        <nationalNumberPattern>
+          1(?:
+            0[78]\d{2}|
+            1(?:
+              [278]|
+              45|
+              6(?:
+                000|
+                111
+              )
+            )|
+            4(?:
+              [03457]|
+              1[45]
+            )|
+            6(?:
+              00|
+              [1-46]
+            )|
+            8(?:
+              02|
+              1[189]|
+              50|
+              7|
+              8[08]|
+              99
+            )
+          )|
+          [2-9]\d{2,4}
+        </nationalNumberPattern>
+        <exampleNumber>147</exampleNumber>
+      </shortCode>
+      <tollFree>
+        <nationalNumberPattern>
+          1(?:
+            16\d{3}|
+            47
+          )|
+          5200
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3,6}</possibleNumberPattern>
+        <exampleNumber>116000</exampleNumber>
+      </tollFree>
+      <standardRate>
+        <!-- These are priced by the mobile companies at just under the rate they charge for calls
+             to fixed-line and mobile phones, so we consider them standard rate. 143 is actually
+             free for Sunrise. -->
+        <nationalNumberPattern>
+          1(?:
+            4(?:
+              [035]|
+              1\d
+            )|
+            6\d{1,2}
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3,4}</possibleNumberPattern>
+        <exampleNumber>1600</exampleNumber>
+      </standardRate>
+      <premiumRate>
+        <!-- http://www.zouk88.com/switzerland/index.htm -->
+        <!-- http://aonebill.com/coverage&tariffs#Switzerland -->
+        <!-- Swisscom and Sunrise refer to 18XY as being premium rate. 1145 is priced similarly. -->
+        <nationalNumberPattern>
+          1(?:
+            145|
+            8\d{2}
+          )|
+          543|
+          83111
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3,5}</possibleNumberPattern>
+        <exampleNumber>543</exampleNumber>
+      </premiumRate>
+      <carrierSpecific>
+        <!-- 5200, 535 are both used by Orange for SMSs. -->
+        <nationalNumberPattern>
+          5(?:
+            200|
+            35
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3,4}</possibleNumberPattern>
+        <exampleNumber>535</exampleNumber>
+      </carrierSpecific>
+      <directoryServices>
+        <nationalNumberPattern>18\d{2}</nationalNumberPattern>
+        <possibleNumberPattern>\d{4}</possibleNumberPattern>
+        <exampleNumber>1818</exampleNumber>
+      </directoryServices>
+      <emergency>
+        <nationalNumberPattern>
+          1(?:
+            1[278]|
+            44
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3}</possibleNumberPattern>
+        <exampleNumber>112</exampleNumber>
+      </emergency>
+      <expandedEmergency>
+        <nationalNumberPattern>
+          1(?:
+            16111|
+            4(?:
+              [0356]|
+              1[45]
+            )
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{3,6}</possibleNumberPattern>
+        <exampleNumber>140</exampleNumber>
+      </expandedEmergency>
+      <smsServices>
+        <nationalNumberPattern>[2-9]\d{2,4}</nationalNumberPattern>
+        <possibleNumberPattern>\d{3,6}</possibleNumberPattern>
+        <exampleNumber>600</exampleNumber>
+      </smsServices>
+      <carrierSelectionCodes>
+        <!-- https://www.eofcom.admin.ch/eofcom/public/listEofcom_cscAllocated.do -->
+        <nationalNumberPattern>10[78]\d{2}</nationalNumberPattern>
+        <possibleNumberPattern>\d{5}</possibleNumberPattern>
+        <exampleNumber>10742</exampleNumber>
+      </carrierSelectionCodes>
+    </territory>
+  </territories>
+</phoneNumberMetadata>
